@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 import joblib
 from pydantic import BaseModel
+import pandas as pd
 
 
 app = FastAPI()
@@ -21,14 +22,14 @@ class CarFeatures(BaseModel):
 def tahmin_et(car: CarFeatures):
     
    
-    data = [[
-        car.buying_price,
-        car.maintenance_cost,
-        car.number_of_doors,
-        car.number_of_persons,
-        car.lug_boot,
-        car.safety
-    ]]
+    data = pd.DataFrame([{
+        'buying_price': car.buying_price,
+        'maintenance_cost': car.maintenance_cost,
+        'number_of_doors': car.number_of_doors,
+        'number_of_persons': car.number_of_persons,
+        'lug_boot': car.lug_boot,
+        'safety': car.safety
+    }])
     
     
     predict = rf_model.predict(data)
